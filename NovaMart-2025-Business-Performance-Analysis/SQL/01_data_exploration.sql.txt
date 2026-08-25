@@ -1,0 +1,126 @@
+/* CREATE DATABASE novamart;*/
+USE novamart;
+SHOW TABLES;
+SELECT *
+FROM Case_Study_001_The_Fall_of_NovaMart;
+SELECT * FROM orders;
+SELECT * FROM Products;
+SELECT * FROM feedback;
+SELECT * FROM delivery;
+SELECT COUNT(*) FROM feedback;
+
+
+-- ==========================================
+-- Hypothesis 1
+-- Business Question:
+-- Did revenue decline over the months?
+-- ==========================================
+SELECT
+MONTH(order_date) AS Month,
+SUM(sales_amount) AS Revenue
+FROM orders
+GROUP BY MONTH(order_date)
+ORDER BY MONTH(order_date);
+-- Finding:
+-- Revenue fluctuated during the first eight months.
+-- A significant decline began in September.
+-- Revenue recovered slightly in November and December
+-- but remained below earlier performance.
+
+
+-- ==========================================
+-- Hypothesis 2
+-- Business Question:
+-- Did the number of customer orders decrease?
+-- ==========================================
+SELECT
+    MONTH(order_date) AS Month,
+    COUNT(order_id) AS Total_Orders
+FROM orders
+GROUP BY MONTH(order_date)
+ORDER BY MONTH(order_date);
+-- Finding:
+-- Order volume followed the same downward trend as revenue.
+-- This suggests that fewer customer purchases contributed
+-- to the decline in revenue.
+
+
+-- ==========================================
+-- Hypothesis 3
+-- Business Question:
+-- Were discounts becoming too high?
+-- ==========================================
+
+SELECT
+    MONTH(order_date) AS Month,
+    AVG(discount) AS Average_Discount
+FROM orders
+GROUP BY MONTH(order_date)
+ORDER BY MONTH(order_date);
+
+
+-- ==========================================
+-- Hypothesis 4
+-- Business Question:
+-- Which products generate the most profit?
+-- ==========================================
+
+SELECT
+    p.product_name,
+    SUM((p.selling_price - p.cost_price) * o.quantity) AS Total_Profit
+FROM products AS p
+INNER JOIN orders AS o
+    ON p.product_id = o.product_id
+GROUP BY p.product_name
+ORDER BY Total_Profit DESC;
+
+-- ==========================================
+-- Hypothesis 5
+-- Business Question:
+-- Which product categories generate the most revenue?
+-- ==========================================
+
+SELECT
+    p.category,
+    SUM(o.sales_amount) AS Total_Revenue
+FROM products AS p
+INNER JOIN orders AS o
+    ON p.product_id = o.product_id
+GROUP BY p.category
+ORDER BY Total_Revenue DESC;
+
+SELECT AVG(discount) AS Average_Discount
+FROM orders;
+
+-- ==========================================
+-- Hypothesis 5
+-- revenue_analysis.sql
+-- ==========================================
+SELECT
+    category,
+    SUM(sales_amount) AS revenue
+FROM orders
+GROUP BY category
+ORDER BY revenue DESC;
+
+-- ==========================================
+-- Hypothesis 6
+-- customer_analysis.sql
+-- ==========================================
+SELECT
+    customer_id,
+    SUM(sales_amount) AS customer_revenue
+FROM orders
+GROUP BY customer_id
+ORDER BY customer_revenue DESC;
+
+-- ==========================================
+-- Hypothesis 7
+-- delivery_analysis.sql
+-- ==========================================
+SELECT
+    delivery_status,
+    COUNT(*) AS order_count
+FROM delivery
+GROUP BY delivery_status;
+
