@@ -246,7 +246,11 @@ The dashboard focuses on:
 
 The purpose of the dashboard is to help management quickly identify areas requiring attention and further investigation.
 
----
+## Dashboard Preview
+
+### NovaMart Executive Dashboard
+
+![NovaMart Executive Dashboard](NovaMart-2025-Business-Performance-Analysis/DASHBOARD/NovaMart_Executive_Dashboard.png)
 
 ## 📁 Project Structure
 
